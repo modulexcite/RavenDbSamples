@@ -1,0 +1,14 @@
+﻿@model IEnumerable<HelloWorld.Web.Models.Person>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@foreach (var item in Model) {
+    
+    <div>@Html.Raw(item.Name), @Html.Raw(item.Surname) (@item.Id)</div>
+    foreach (var _item in item.Hobbies) {
+        <div>* @_item.Name</div>
+    }
+}
