@@ -79,10 +79,21 @@ namespace RavenDbDictionaryIndexSample
                 using (IDocumentSession session = store.OpenSession())
                 {
                     Product item = GetProduct();
-
                     item.Properties.Add("Color", "Red");
-                    item.Properties.Add("Size", "50");
+                    item.Properties.Add("Size", "15");
                     item.Properties.Add("Category", "Sports");
+
+                    session.Store(item);
+                    session.SaveChanges();
+                }
+
+                using (IDocumentSession session = store.OpenSession())
+                {
+                    RavenQueryStatistics stats;
+                    IEnumerable<Product> products = session.Query<Product, Product_ByProperty>()
+                        .Statistics(out stats)
+                        .Where(prod => prod.Properties["Color"] == "Red")
+                        .ToList();
                 }
             }
         }
